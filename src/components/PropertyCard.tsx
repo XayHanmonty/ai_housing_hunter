@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, Star, MapPin, Home, Bed, Bath, Ruler } from "lucide-react";
+import { Heart, Star, MapPin, Home, Bed, Bath, Ruler, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Property } from "@/data/mockHousing";
 
 interface PropertyCardProps {
   property: Property;
+  onRequestTour?: (property: Property) => void;
 }
 
-export function PropertyCard({ property }: PropertyCardProps) {
+export function PropertyCard({ property, onRequestTour }: PropertyCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -25,6 +27,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
     setCurrentImageIndex((prev) =>
       prev === 0 ? property.images.length - 1 : prev - 1
     );
+  };
+
+  const handleRequestTour = () => {
+    if (onRequestTour) {
+      onRequestTour(property);
+    }
   };
 
   return (
@@ -158,8 +166,8 @@ export function PropertyCard({ property }: PropertyCardProps) {
           ))}
         </div>
 
-        {/* Price */}
-        <div className="flex items-center justify-between">
+        {/* Price and Availability */}
+        <div className="flex items-center justify-between mb-4">
           <div>
             <span className="text-lg font-bold text-gray-900">
               ${property.price.toLocaleString()}
@@ -170,6 +178,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
             Available {new Date(property.availableDate).toLocaleDateString()}
           </div>
         </div>
+
+        {/* Action Button */}
+        <Button
+          onClick={handleRequestTour}
+          className="w-full bg-rose-500 hover:bg-rose-600 text-white flex items-center gap-2"
+        >
+          <Calendar className="h-4 w-4" />
+          Request Tour
+        </Button>
       </div>
     </Card>
   );
