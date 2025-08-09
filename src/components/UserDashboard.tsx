@@ -22,6 +22,7 @@ interface UserDashboardProps {
   onRequestTour: (property: Property) => void;
   onApplyToProperty: (property: Property) => void;
   onScheduleTour: (property: Property) => void;
+  onDeleteProperty?: (propertyId: string) => void;
 }
 
 export function UserDashboard({
@@ -30,7 +31,8 @@ export function UserDashboard({
   scheduledProperties,
   onRequestTour,
   onApplyToProperty,
-  onScheduleTour
+  onScheduleTour,
+  onDeleteProperty
 }: UserDashboardProps) {
   const [activeTab, setActiveTab] = useState("applied");
 
@@ -142,6 +144,7 @@ export function UserDashboard({
                       onRequestTour={() => onRequestTour(property)}
                       onApplyToProperty={() => onApplyToProperty(property)}
                       onScheduleTour={() => onScheduleTour(property)}
+                      onDelete={() => onDeleteProperty && onDeleteProperty(property.id)}
                     />
                   ))}
                 </div>
@@ -179,6 +182,7 @@ export function UserDashboard({
                       onRequestTour={() => onRequestTour(property)}
                       onApplyToProperty={() => onApplyToProperty(property)}
                       onScheduleTour={() => onScheduleTour(property)}
+                      onDelete={() => onDeleteProperty && onDeleteProperty(property.id)}
                     />
                   ))}
                 </div>
@@ -216,6 +220,7 @@ export function UserDashboard({
                       onRequestTour={() => onRequestTour(property)}
                       onApplyToProperty={() => onApplyToProperty(property)}
                       onScheduleTour={() => onScheduleTour(property)}
+                      onDelete={() => onDeleteProperty && onDeleteProperty(property.id)}
                     />
                   ))}
                 </div>

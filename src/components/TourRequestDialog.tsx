@@ -41,25 +41,11 @@ export function TourRequestDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Request a Tour</DialogTitle>
-          <DialogDescription>
-            You can edit the message below before sending it.
-          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Textarea defaultValue={message} rows={8} />
         </div>
         <DialogFooter>
-          <Button onClick={handleCopy} variant="outline">
-            {isCopied ? (
-              <>
-                <Check className="mr-2 h-4 w-4" /> Copied
-              </>
-            ) : (
-              <>
-                <Copy className="mr-2 h-4 w-4" /> Copy Message
-              </>
-            )}
-          </Button>
           <Button onClick={onClose}>Close</Button>
         </DialogFooter>
       </DialogContent>

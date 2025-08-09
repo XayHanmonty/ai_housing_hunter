@@ -10,7 +10,8 @@ interface SearchResultsProps {
   searchQuery: string;
   onNewSearch: () => void;
   onRequestFeature: () => void;
-  onRequestTour?: (property: Property) => void;
+  onAddToDashboard?: (property: Property) => void;
+  onDeleteProperty?: (propertyId: string) => void;
   isLoading?: boolean;
 }
 
@@ -19,7 +20,8 @@ export function SearchResults({
   searchQuery,
   onNewSearch,
   onRequestFeature,
-  onRequestTour,
+  onAddToDashboard,
+  onDeleteProperty,
   isLoading
 }: SearchResultsProps) {
   if (isLoading) {
@@ -70,7 +72,12 @@ export function SearchResults({
       {properties.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} onRequestTour={onRequestTour} />
+            <PropertyCard
+              key={property.id}
+              property={property}
+              onAddToDashboard={onAddToDashboard}
+              onDelete={onDeleteProperty}
+            />
           ))}
         </div>
       ) : (

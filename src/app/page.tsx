@@ -82,7 +82,7 @@ export default function HomePage() {
   };
 
   // Property action handlers
-  const handleRequestTour = (property: Property) => {
+  const handleAddToDashboard = (property: Property) => {
     // Add to in-contact list if not already there
     if (!inContactProperties.find(p => p.id === property.id)) {
       setInContactProperties(prev => [...prev, property]);
@@ -92,7 +92,7 @@ export default function HomePage() {
     setAppState('dashboard');
 
     // Show a brief notification (you could enhance this with a toast)
-    console.log(`Tour requested for ${property.title}`);
+    console.log(`${property.title} added to dashboard`);
   };
 
   const handleApplyToProperty = (property: Property) => {
@@ -111,6 +111,13 @@ export default function HomePage() {
     }
   };
 
+  const handleDeleteProperty = (propertyId: string) => {
+    setSearchResults(prev => prev.filter(p => p.id !== propertyId));
+    setAppliedProperties(prev => prev.filter(p => p.id !== propertyId));
+    setInContactProperties(prev => prev.filter(p => p.id !== propertyId));
+    setScheduledProperties(prev => prev.filter(p => p.id !== propertyId));
+  };
+
   const renderContent = () => {
     switch (appState) {
       case 'search':
@@ -127,7 +134,8 @@ export default function HomePage() {
             searchQuery={searchQuery}
             onNewSearch={handleNewSearch}
             onRequestFeature={handleRequestFeature}
-            onRequestTour={handleRequestTour}
+            onAddToDashboard={handleAddToDashboard}
+            onDeleteProperty={handleDeleteProperty}
             isLoading={isLoading}
           />
         );
@@ -138,9 +146,10 @@ export default function HomePage() {
             appliedProperties={appliedProperties}
             inContactProperties={inContactProperties}
             scheduledProperties={scheduledProperties}
-            onRequestTour={handleRequestTour}
+            onRequestTour={handleAddToDashboard} // Renamed for now, will be updated
             onApplyToProperty={handleApplyToProperty}
             onScheduleTour={handleScheduleTour}
+            onDeleteProperty={handleDeleteProperty}
           />
         );
 

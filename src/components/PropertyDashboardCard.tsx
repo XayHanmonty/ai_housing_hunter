@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Star, Bed, Bath, Ruler, Calendar, MessageCircle, FileText, CheckCircle } from "lucide-react";
+import { MapPin, Star, Bed, Bath, Ruler, Calendar, MessageCircle, FileText, CheckCircle, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ interface PropertyDashboardCardProps {
   onRequestTour: () => void;
   onApplyToProperty: () => void;
   onScheduleTour: () => void;
+  onDelete?: () => void;
 }
 
 export function PropertyDashboardCard({
@@ -21,7 +22,8 @@ export function PropertyDashboardCard({
   status,
   onRequestTour,
   onApplyToProperty,
-  onScheduleTour
+  onScheduleTour,
+  onDelete
 }: PropertyDashboardCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -82,7 +84,18 @@ export function PropertyDashboardCard({
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white">
+    <Card className="relative group overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white">
+      {onDelete && (
+        <Button
+          onClick={onDelete}
+          variant="ghost"
+          size="icon"
+          className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full bg-white/80 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <X className="h-4 w-4 text-gray-600" />
+          <span className="sr-only">Remove property</span>
+        </Button>
+      )}
       {/* Status Header */}
       <div className={`px-4 py-3 border-b ${statusInfo.color.replace('bg-', 'border-').replace('-100', '-200')}`}>
         <div className="flex items-center gap-2">
