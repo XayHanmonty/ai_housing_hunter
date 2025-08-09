@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, Star, MapPin, Home, Bed, Bath, Ruler } from "lucide-react";
+import { Heart, Star, MapPin, Home, Bed, Bath, Ruler, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,10 @@ import { TourRequestDialog } from "./TourRequestDialog";
 
 interface PropertyCardProps {
   property: Property;
+  onRequestTour?: (property: Property) => void;
 }
 
-export function PropertyCard({ property }: PropertyCardProps) {
+export function PropertyCard({ property, onRequestTour }: PropertyCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isTourDialogOpen, setIsTourDialogOpen] = useState(false);
@@ -35,6 +36,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
     setCurrentImageIndex((prev) =>
       prev === 0 ? property.images.length - 1 : prev - 1
     );
+  };
+
+  const handleRequestTour = () => {
+    if (onRequestTour) {
+      onRequestTour(property);
+    }
   };
 
   return (
@@ -180,6 +187,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
             <Button onClick={generateTourMessage}>Request a Tour</Button>
           </div>
         </div>
+<<<<<<< HEAD
       </Card>
       <TourRequestDialog
         isOpen={isTourDialogOpen}
@@ -187,5 +195,76 @@ export function PropertyCard({ property }: PropertyCardProps) {
         message={tourRequestMessage}
       />
     </>
+=======
+
+        {/* Title */}
+        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+          {property.title}
+        </h3>
+
+        {/* Property Details */}
+        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+          <div className="flex items-center gap-1">
+            <Bed className="h-4 w-4" />
+            <span>{property.bedrooms} bed</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Bath className="h-4 w-4" />
+            <span>{property.bathrooms} bath</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Ruler className="h-4 w-4" />
+            <span>{property.squareFeet} sqft</span>
+          </div>
+        </div>
+
+        {/* Amenities */}
+        <div className="flex flex-wrap gap-1 mb-3">
+          {property.nearTransit && (
+            <Badge variant="outline" className="text-xs">
+              Near Transit
+            </Badge>
+          )}
+          {property.petFriendly && (
+            <Badge variant="outline" className="text-xs">
+              Pet Friendly
+            </Badge>
+          )}
+          {property.furnished && (
+            <Badge variant="outline" className="text-xs">
+              Furnished
+            </Badge>
+          )}
+          {property.amenities.slice(0, 2).map((amenity) => (
+            <Badge key={amenity} variant="outline" className="text-xs">
+              {amenity}
+            </Badge>
+          ))}
+        </div>
+
+        {/* Price and Availability */}
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <span className="text-lg font-bold text-gray-900">
+              ${property.price.toLocaleString()}
+            </span>
+            <span className="text-gray-600 text-sm">/month</span>
+          </div>
+          <div className="text-sm text-gray-600">
+            Available {new Date(property.availableDate).toLocaleDateString()}
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <Button
+          onClick={handleRequestTour}
+          className="w-full bg-rose-500 hover:bg-rose-600 text-white flex items-center gap-2"
+        >
+          <Calendar className="h-4 w-4" />
+          Request Tour
+        </Button>
+      </div>
+    </Card>
+>>>>>>> feature/anthropic-nlp-integration
   );
 }
