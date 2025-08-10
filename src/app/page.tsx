@@ -11,7 +11,7 @@ import { mockProperties, filterProperties, SearchFilters, Property } from "@/dat
 type AppState = 'search' | 'results' | 'dashboard';
 
 // Configuration for backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || (typeof window !== 'undefined' ? '' : 'http://localhost:8000');
 
 export default function HomePage() {
   const [appState, setAppState] = useState<AppState>('search');
@@ -31,7 +31,7 @@ export default function HomePage() {
 
     try {
       // Call our Python FastAPI backend to parse the natural language query
-      const response = await fetch(`${BACKEND_URL}/api/parse-search`, {
+      const response = await fetch(`${BACKEND_URL}/api/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,18 +40,17 @@ export default function HomePage() {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to parse search query: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to search properties: ${response.status} ${response.statusText}`);
       }
 
-      const { filters }: { filters: SearchFilters } = await response.json();
+      const { success, properties, count }: { success: boolean; properties: Property[]; count: number } = await response.json();
 
-      // Filter properties based on parsed criteria
-      const filteredProperties = filterProperties(mockProperties, filters);
-
-      // Simulate network delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      setSearchResults(filteredProperties);
+      if (success && properties) {
+        setSearchResults(properties);
+      } else {
+        // On error, show empty results
+        setSearchResults([]);
+      }
       setAppState('results');
     } catch (error) {
       console.error('Search error:', error);
