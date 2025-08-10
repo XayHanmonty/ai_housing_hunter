@@ -1,5 +1,11 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config, { isDev, webpack }) => {
+    config.resolve.alias['@'] = path.join(__dirname, 'src');
+    return config;
+  },
   allowedDevOrigins: ["*.preview.same-app.com"],
   images: {
     unoptimized: true,
