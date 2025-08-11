@@ -10,7 +10,7 @@ import { FeatureRequestDialog } from "@/components/FeatureRequestDialog";
 type AppState = 'search' | 'results' | 'dashboard';
 
 // Configuration for backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://ai-housing-hunter-backend.vercel.app/';
+const BACKEND_URL = 'https://ai-housing-hunter-backend.vercel.app';
 
 export interface Property {
   id: string;
