@@ -10,7 +10,7 @@ import { FeatureRequestDialog } from "@/components/FeatureRequestDialog";
 type AppState = 'search' | 'results' | 'dashboard';
 
 // Configuration for backend URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || (typeof window !== 'undefined' ? '' : 'http://localhost:8000');
 
 export interface Property {
   id: string;
