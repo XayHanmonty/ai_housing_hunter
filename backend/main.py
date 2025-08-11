@@ -25,9 +25,9 @@ app.add_middleware(
 )
 
 # Zillow API configuration
-ZILLOW_API_KEY = os.getenv("ZILLOW_API_KEY", "d45a0d8cf4mshf4f7393f1c5d269p1234a8jsn392dbcde4812")
-ZILLOW_API_HOST = "zillow-com1.p.rapidapi.com"
-ZILLOW_BASE_URL = "https://zillow-com1.p.rapidapi.com"
+ZILLOW_API_KEY = os.getenv("ZILLOW_API_KEY")
+ZILLOW_API_HOST = os.getenv("ZILLOW_API_HOST")
+ZILLOW_BASE_URL = os.getenv("ZILLOW_BASE_URL")
 
 class SearchQuery(BaseModel):
     query: str
