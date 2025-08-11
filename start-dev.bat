@@ -41,7 +41,7 @@ echo ⚛️ Starting Next.js frontend...
 echo 🚀 Frontend will be available on http://localhost:3000
 
 REM Set environment variable for backend URL
-set NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+set NEXT_PUBLIC_BACKEND_URL=https://ai-housing-hunter-backend.vercel.app/
 
 REM Start frontend development server
 echo.

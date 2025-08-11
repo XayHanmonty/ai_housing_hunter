@@ -71,7 +71,7 @@ The application includes 6 realistic Bay Area properties with:
 Create a `.env.local` file in the root directory:
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+NEXT_PUBLIC_BACKEND_URL=https://ai-housing-hunter-backend.vercel.app/
 ```
 
 For production deployment, set your backend URL accordingly.

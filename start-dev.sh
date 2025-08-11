@@ -41,7 +41,7 @@ echo "⚛️  Starting Next.js frontend..."
 echo "🚀 Frontend will be available on http://localhost:3000"
 
 # Set environment variable for backend URL
-export NEXT_PUBLIC_BACKEND_URL="http://localhost:8000"
+export NEXT_PUBLIC_BACKEND_URL="https://ai-housing-hunter-backend.vercel.app/"
 
 # Start frontend development server
 bun run dev &
