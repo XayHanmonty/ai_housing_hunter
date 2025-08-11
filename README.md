@@ -34,22 +34,12 @@ start-dev.bat
 
 This will automatically start both the Python backend and Next.js frontend.
 
-### Option 2: Manual setup
 
-**1. Start the Python Backend**
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python main.py
-```
-
-**2. Start the Frontend**
+**Start the Frontend**
 ```bash
 # In a new terminal, from the project root
-bun install
-bun run dev
+npm install
+npm run dev
 ```
 
 ## 🌐 URLs
@@ -58,23 +48,19 @@ bun run dev
 - **Backend API**: http://localhost:8000
 - **API Documentation**: http://localhost:8000/docs
 
-## 📊 Mock Data
-
-The application includes 6 realistic Bay Area properties with:
-- Various bedroom counts (studio to 3BR)
-- Price range $2,200 - $5,200/month
-- Different neighborhoods (Mission Bay, SOMA, Oakland, Berkeley, etc.)
-- Amenities (Near Transit, Pet Friendly, Furnished, etc.)
-
 ## 🔧 Environment Variables
 
-Create a `.env.local` file in the root directory:
+To connect your frontend to the backend, create a `.env.local` file in the `ai_housing_hunter-frontend` directory (or the root of your frontend project):
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=https://ai-housing-hunter-backend.vercel.app/
-```
+# Set this to your deployed backend URL (e.g., Vercel deployment)
+NEXT_PUBLIC_BACKEND_URL=YOUR_VERCEL_DEPLOYMENT_URL
 
-For production deployment, set your backend URL accordingly.
+# For local development with a locally running backend, use:
+# NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+```s
+
+This variable is crucial for the frontend to know where to send API requests.
 
 ## 🤖 Claude API Integration
 
@@ -84,6 +70,9 @@ The Python backend is ready for Claude API integration:
 2. Set your API key:
    ```bash
    export CLAUDE_API_KEY="your-api-key-here"
+   export ZILLOW_API_KEY="your-api-key-here"
+   ZILLOW_API_HOST = ""
+  ZILLOW_BASE_URL = ""
    ```
 3. Uncomment the Claude integration code in `backend/main.py`
 
@@ -98,11 +87,6 @@ housing-search-app/
 │   │   ├── PropertyCard.tsx      # Airbnb-style property cards
 │   │   ├── SearchResults.tsx     # Results grid display
 │   │   └── FeatureRequestDialog.tsx
-│   └── data/                     # Mock housing data
-├── backend/                      # Python FastAPI backend
-│   ├── main.py                   # FastAPI application
-│   ├── requirements.txt          # Python dependencies
-│   └── README.md                 # Backend documentation
 ├── start-dev.sh                  # Linux/Mac startup script
 ├── start-dev.bat                 # Windows startup script
 └── README.md                     # This file
@@ -119,14 +103,9 @@ The application features a clean, modern design inspired by Airbnb:
 
 ## 🚀 Deployment
 
-**Frontend**: Deployed to Netlify at https://same-7vh6svpr20r-latest.netlify.app
+**Frontend**: Can be deployed to platforms like Netlify or Vercel.
 
-**Backend**: Ready for deployment to services like:
-- Railway
-- Render
-- Google Cloud Run
-- AWS Lambda (with Mangum)
-- Vercel (with Python runtime)
+**Backend**: Deployed on Vercel (Private)
 
 ## 🛠️ Technologies
 
