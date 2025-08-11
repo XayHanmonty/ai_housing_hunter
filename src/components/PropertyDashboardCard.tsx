@@ -1,4 +1,6 @@
-"use client";
+'use client';
+
+import { Property } from '@/app/page';
 
 import { useState } from "react";
 import Image from "next/image";
@@ -6,7 +8,6 @@ import { MapPin, Star, Bed, Bath, Ruler, Calendar, MessageCircle, FileText, Chec
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Property } from "@/data/mockHousing";
 
 interface PropertyDashboardCardProps {
   property: Property;

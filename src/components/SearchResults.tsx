@@ -1,6 +1,6 @@
 "use client";
 
-import { Property } from "@/data/mockHousing";
+import { Property } from "@/app/page";
 import { PropertyCard } from "./PropertyCard";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, Filter } from "lucide-react";

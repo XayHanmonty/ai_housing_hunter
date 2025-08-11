@@ -41,12 +41,34 @@ export interface Property {
   detailUrl?: string;
 }
 
-const transformBackendProperty = (backendProperty: any): Property => {
+interface BackendProperty {
+  id: string;
+  price?: string;
+  address?: string;
+  beds?: number;
+  baths?: number;
+  area?: number;
+  imageUrl?: string;
+  detailUrl?: string;
+  providerListingId?: string;
+  latitude?: number;
+  longitude?: number;
+  description?: string;
+  propertyType?: string;
+  yearBuilt?: number;
+  daysOnZillow?: number;
+  zestimate?: number;
+  rentZestimate?: number;
+  brokerName?: string;
+  brokerPhone?: string;
+}
+
+const transformBackendProperty = (backendProperty: BackendProperty): Property => {
   return {
     id: backendProperty.id,
     title: backendProperty.address || 'N/A',
     description: backendProperty.description || 'No description available.',
-    price: parseFloat(backendProperty.price?.replace(/[^0-9.-]+/g,"")) || 0,
+    price: parseFloat((backendProperty.price || '0').replace(/[^0-9.-]+/g,"")) || 0,
     bedrooms: backendProperty.beds,
     bathrooms: backendProperty.baths,
     images: backendProperty.imageUrl ? [backendProperty.imageUrl] : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'],
