@@ -6,12 +6,71 @@ import { SearchResults } from "@/components/SearchResults";
 import { UserDashboard } from "@/components/UserDashboard";
 import { Navigation } from "@/components/Navigation";
 import { FeatureRequestDialog } from "@/components/FeatureRequestDialog";
-import { mockProperties, filterProperties, SearchFilters, Property } from "@/data/mockHousing";
 
 type AppState = 'search' | 'results' | 'dashboard';
 
 // Configuration for backend URL
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+
+export interface Property {
+  id: string;
+  title: string;
+  description?: string;
+  price: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  images: string[];
+  location: {
+    city: string;
+    neighborhood: string;
+    address: string;
+    coordinates: {
+      lat?: number;
+      lng?: number;
+    };
+  };
+  amenities: string[];
+  nearTransit: boolean;
+  petFriendly: boolean;
+  furnished: boolean;
+  rating: number;
+  reviewCount: number;
+  propertyType?: string;
+  squareFeet?: number;
+  availableDate: string;
+  detailUrl?: string;
+}
+
+const transformBackendProperty = (backendProperty: any): Property => {
+  return {
+    id: backendProperty.id,
+    title: backendProperty.address || 'N/A',
+    description: backendProperty.description || 'No description available.',
+    price: parseFloat(backendProperty.price?.replace(/[^0-9.-]+/g,"")) || 0,
+    bedrooms: backendProperty.beds,
+    bathrooms: backendProperty.baths,
+    images: backendProperty.imageUrl ? [backendProperty.imageUrl] : ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'],
+    location: {
+      city: backendProperty.address?.split(',')[1]?.trim() || 'N/A',
+      neighborhood: backendProperty.address?.split(',')[0]?.trim() || 'N/A',
+      address: backendProperty.address || 'N/A',
+      coordinates: {
+        lat: backendProperty.latitude,
+        lng: backendProperty.longitude,
+      },
+    },
+    amenities: [], // Not available from backend
+    nearTransit: false, // Not available from backend
+    petFriendly: false, // Not available from backend
+    furnished: false, // Not available from backend
+    rating: 4.0, // Default value
+    reviewCount: 0, // Default value
+    propertyType: backendProperty.propertyType,
+    squareFeet: backendProperty.area,
+    availableDate: new Date().toISOString(), // Default value
+    detailUrl: backendProperty.detailUrl,
+  };
+};
 
 export default function HomePage() {
   const [appState, setAppState] = useState<AppState>('search');
@@ -30,8 +89,7 @@ export default function HomePage() {
     setSearchQuery(query);
 
     try {
-      // Call our Python FastAPI backend to parse the natural language query
-      const response = await fetch(`${BACKEND_URL}/api/parse-search`, {
+      const response = await fetch(`${BACKEND_URL}/api/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,23 +98,24 @@ export default function HomePage() {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to parse search query: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to fetch properties: ${response.status} ${response.statusText}`);
       }
 
-      const { filters }: { filters: SearchFilters } = await response.json();
+      const data = await response.json();
+      
+      if (data.success) {
+        const transformedProperties = data.properties.map(transformBackendProperty);
+        setSearchResults(transformedProperties);
+      } else {
+        // Handle backend error message
+        console.error('Backend error:', data.message);
+        setSearchResults([]);
+      }
 
-      // Filter properties based on parsed criteria
-      const filteredProperties = filterProperties(mockProperties, filters);
-
-      // Simulate network delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      setSearchResults(filteredProperties);
       setAppState('results');
     } catch (error) {
       console.error('Search error:', error);
-      // On error, show all properties as fallback
-      setSearchResults(mockProperties);
+      setSearchResults([]);
       setAppState('results');
     } finally {
       setIsLoading(false);

@@ -1,3 +1,4 @@
+/*
 export interface Property {
   id: string;
   title: string;
@@ -235,3 +236,4 @@ export function filterProperties(properties: Property[], filters: SearchFilters)
     return true;
   });
 }
+*/

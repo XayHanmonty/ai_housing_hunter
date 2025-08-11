@@ -6,7 +6,7 @@ import { Heart, Star, MapPin, Bed, Bath, Ruler, Calendar, X, MessageSquarePlus }
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Property } from "@/data/mockHousing";
+import { Property } from "@/app/page";
 import { TourRequestDialog } from "./TourRequestDialog";
 
 interface PropertyCardProps {
